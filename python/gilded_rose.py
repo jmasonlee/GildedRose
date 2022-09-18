@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from approvaltests import SimpleLogger
+
 
 class GildedRose(object):
 
@@ -35,6 +37,10 @@ class GildedRose(object):
                     if item.quality < 50:
                         item.quality = item.quality + 1
 
+class LoggingGildedRose(GildedRose):
+    def __setattr__(self, key, value):
+        SimpleLogger.variable(key, value)
+        super.__setattr__(self, key, value)
 
 class Item:
     def __init__(self, name, sell_in, quality):
@@ -44,3 +50,8 @@ class Item:
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+class LoggingItem(Item):
+    def __setattr__(self, key, value):
+        SimpleLogger.variable(key, value)
+        super.__setattr__(self, key, value)
